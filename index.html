@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rádio Traduzida</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #222;
+            color: #fff;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #ff6347; /* Cor vibrante para o título */
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        .radio-buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+            transition: max-height 0.3s ease-out, background-color 0.5s ease;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .radio-buttons.collapsed {
+            max-height: 0;
+            overflow: hidden;
+        }
+        button {
+            background-color: #555;
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 60%;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        button:hover {
+            background-color: #666;
+            transform: scale(1.05);
+        }
+        #radioButtons1 {
+            background-color: #ff1493; /* Cor vibrante para a Região1 */
+        }
+        #radioButtons2 {
+            background-color: #32cd32; /* Cor vibrante para a Região2 */
+        }
+        #radioButtons1.collapsed {
+            background-color: #ff1493; /* Cor vibrante quando fechado */
+        }
+        #radioButtons2.collapsed {
+            background-color: #32cd32; /* Cor vibrante quando fechado */
+        }
+        audio {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 5px;
+        }
+        #translatedText {
+            margin-top: 20px;
+            font-size: 20px;
+            color: #ff6347; /* Cor vibrante para o texto traduzido */
+        }
+        #toggleButton1, #toggleButton2 {
+            background-color: #444;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            transition: background-color 0.3s;
+        }
+        #toggleButton1:hover, #toggleButton2:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Rádio Conexão Mundial</h1>
+
+    <!-- Botão para alternar o estado das faixas da Região1 -->
+    <button id="toggleButton1" onclick="toggleRadioSection('region1')">Rádios da Região1</button>
+
+    <!-- Seção de faixas da Região1 -->
+    <div class="radio-buttons" id="radioButtons1">
+        <button onclick="changeStation('https://live.hunter.fm/sertanejo_normal')">O Canal Sertanejo</button>
+        <button onclick="changeStation('https://live.hunter.fm/pop_normal')">O Canal Pop</button>
+        <button onclick="changeStation('https://live.hunter.fm/master_normal')">O Canal Master</button>
+        <button onclick="changeStation('https://live.hunter.fm/mpb_normal')">O Canal MPB</button>
+        <button onclick="changeStation('https://live.hunter.fm/pagode_normal')">O Canal Pagode</button>
+        <button onclick="changeStation('https://live.hunter.fm/rock_normal')">O Canal Rock</button>
+        <button onclick="changeStation('https://live.hunter.fm/kpop_normal')">O Canal K-pop</button>
+        <button onclick="changeStation('https://live.hunter.fm/hitsbrasil_normal')">O Canal Hits Brasil</button>
+        <button onclick="changeStation('https://live.hunter.fm/gospel_normal')">O Canal Gospel</button>
+        <button onclick="changeStation('https://live.hunter.fm/modasertaneja_normal')">O Canal Moda Sertaneja</button>
+        <button onclick="changeStation('https://live.hunter.fm/pop2k_normal')">O Canal Pop2K</button>
+        <button onclick="changeStation('https://live.hunter.fm/80s_normal')">O Canal 80</button>
+        <button onclick="changeStation('https://live.hunter.fm/lofi_normal')">O Canal Lo-Fi</button>
+        <button onclick="changeStation('https://live.hunter.fm/pisadinha_normal')">O Canal Pisadinha</button>
+        <button onclick="changeStation('https://live.hunter.fm/tropical_normal')">O Canal Tropical</button>
+        <button onclick="changeStation('https://casthttps.suaradionanet.net/8002/stream')">Rádio Liderança FM
+            Maravilha / AL - Brasil</button>
+        <button onclick="changeStation('https://r15.ciclano.io/proxy/prgilberto2/stream')">Rádio Gospel Campinas
+            Campinas / SP - Brasil</button>
+        <button onclick="changeStation('http://stream.radioparadise.com/radio2050-flacm')">Maravilha FM</button>
+        <button onclick="changeStation('https://funkyradio.streamingmedia.it/play.mp3')">funkyradio</button>
+        <!-- Outras rádios aqui -->
+    </div>
+
+    <!-- Botão para alternar o estado das faixas da Região2 -->
+    <button id="toggleButton2" onclick="toggleRadioSection('region2')">Rádios da Região2</button>
+
+    <!-- Seção de faixas da Região2 -->
+    <div class="radio-buttons" id="radioButtons2">
+        <button onclick="changeStation('https://live.hunter.fm/sertanejo_normal')">O Canal Sertanejo</button>
+        <button onclick="changeStation('https://live.hunter.fm/pop_normal')">O Canal Pop</button>
+        <!-- Outras rádios aqui -->
+    </div>
+
+    <audio id="radioPlayer" controls>
+        <source id="radioSource" src="" type="audio/mpeg">
+        Seu navegador não suporta o elemento de áudio.
+    </audio>
+
+    <div id="translatedText">Texto traduzido aparecerá aqui...</div>
+</div>
+
+<script>
+// Função para mudar a estação
+function changeStation(url) {
+    var audioPlayer = document.getElementById('radioPlayer');
+    var radioSource = document.getElementById('radioSource');
+    radioSource.src = url;
+    audioPlayer.load();
+    audioPlayer.play();
+
+    // Chama a função de simulação de tradução (não de transcrição real)
+    simulateTranslation();
+}
+
+// Função para simular a tradução de um texto (não transcrição de áudio real)
+function simulateTranslation() {
+    const translatedText = "This is a test of an English audio that is being played on the radio. We will translate it into Portuguese.";
+    displayTranslation(translatedText);
+}
+
+// Função para traduzir o texto usando a API do Google Translate
+function displayTranslation(text) {
+    const translatedTextElement = document.getElementById('translatedText');
+    
+    // Simulando a tradução do texto (no caso estamos traduzindo do inglês para o português)
+    const translatedText = "Esta é uma simulação de tradução. O áudio que está sendo tocado na rádio está sendo traduzido para o português.";
+    translatedTextElement.textContent = translatedText;
+}
+
+// Função para alternar entre abrir/fechar a seção de faixas
+function toggleRadioSection(region) {
+    const radioButtons = document.getElementById(`radioButtons${region === 'region1' ? '1' : '2'}`);
+    radioButtons.classList.toggle('collapsed');
+    const buttonText = radioButtons.classList.contains('collapsed') ? 'Abrir Faixas' : 'Fechar Faixas';
+    document.getElementById(`toggleButton${region === 'region1' ? '1' : '2'}`).textContent = buttonText;
+}
+</script>
+
+</body>
+</html>
